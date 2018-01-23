@@ -1,0 +1,5 @@
+/Users/christophesaurin/IdeaProjects/maven-diffcover/diffcover-maven-plugin/src/main/java/org/apache/maven/plugins/diffcover/maven/plugin/Cover.java
+/Users/christophesaurin/IdeaProjects/maven-diffcover/diffcover-maven-plugin/src/main/java/org/apache/maven/plugins/diffcover/maven/plugin/MainLoadExec.java
+/Users/christophesaurin/IdeaProjects/maven-diffcover/diffcover-maven-plugin/src/main/java/org/apache/maven/plugins/diffcover/maven/plugin/CoverEngine.java
+/Users/christophesaurin/IdeaProjects/maven-diffcover/diffcover-maven-plugin/target/generated-sources/plugin/HelpMojo.java
+/Users/christophesaurin/IdeaProjects/maven-diffcover/diffcover-maven-plugin/src/main/java/org/apache/maven/plugins/diffcover/maven/plugin/MyMojo.java
