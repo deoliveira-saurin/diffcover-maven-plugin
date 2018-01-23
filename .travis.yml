@@ -1,0 +1,7 @@
+language: java
+sudo: false # faster builds
+script: mvn clean package
+
+notifications:
+    slack: deoliveirasaurin:8QEuNZTItMPifw7e0scBDXtU#difcover-plugin-maven
+
