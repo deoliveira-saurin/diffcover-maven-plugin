@@ -3,17 +3,22 @@ jdk: oraclejdk8
 
 sudo: false # faster builds
 install: true
+
 addons:
   sonarcloud:
     organization: "deoliveira-saurin"
     token:
       secure: "2768d13a8259ee89ba0695d967285186911728d8"
+
 script: mvn clean package sonar:sonar
 
 cache:
   directories:
-  - $HOME/.m2
+  - '$HOME/.m2'
+  - '$HOME/.m2/repository'
+  - '$HOME/.sonar/cache'
 
 notifications:
-    slack: deoliveirasaurin:8QEuNZTItMPifw7e0scBDXtU#difcover-plugin-maven
+  email: false
+  slack: deoliveirasaurin:8QEuNZTItMPifw7e0scBDXtU#difcover-plugin-maven
 
