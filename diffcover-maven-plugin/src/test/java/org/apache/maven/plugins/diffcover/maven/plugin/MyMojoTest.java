@@ -3,7 +3,7 @@ package org.apache.maven.plugins.diffcover.maven.plugin;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class MyMojoTest {
+public class MyMojoTest {
 
     @Test
     public void execute() {

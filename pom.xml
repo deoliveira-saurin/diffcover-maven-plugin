@@ -12,7 +12,12 @@
     <modules>
         <module>diffcover-maven-plugin</module>
         <module>diffcover-maven-plugin-test</module>
+        <module>diffcover-maven-plugin-common</module>
     </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <dependency>

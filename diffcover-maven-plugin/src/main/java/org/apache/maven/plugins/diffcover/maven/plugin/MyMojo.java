@@ -62,7 +62,7 @@ public class MyMojo
                     coverEngine.createCoverageBuilder(jacocoFile, classesDirectory);
             coverEngine.analyse(coverageBuilder, sourcesDirectory);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new MojoExecutionException("Error during analyse cover", e);
         }
 
         File f = outputDirectory;
@@ -76,21 +76,10 @@ public class MyMojo
 
         File touch = new File(f, "touch.txt");
 
-        FileWriter w = null;
-        try {
-            w = new FileWriter(touch);
-
+        try (FileWriter w = new FileWriter(touch)){
             w.write("touch.txt");
         } catch (IOException e) {
             throw new MojoExecutionException("Error creating file " + touch, e);
-        } finally {
-            if (w != null) {
-                try {
-                    w.close();
-                } catch (IOException e) {
-                    // ignore
-                }
-            }
         }
     }
 }
