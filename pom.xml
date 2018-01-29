@@ -35,6 +35,18 @@
                         <target>1.8</target>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.4.0.905</version>
+                    <goals>
+                        <goal>sonar</goal>
+                    </goals>
+                    <configuration>
+                        <sonar.host.url>http://sonarcloud.io/</sonar.host.url>
+                        <sonar.login>2768d13a8259ee89ba0695d967285186911728d8</sonar.login>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -42,6 +54,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
