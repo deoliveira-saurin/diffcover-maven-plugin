@@ -3,7 +3,7 @@ jdk: oraclejdk8
 
 sudo: false # faster builds
 install: true
-script: mvn clean package
+script: mvn clean package sonar:sonar
 
 cache:
   directories:
