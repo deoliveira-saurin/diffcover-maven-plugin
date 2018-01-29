@@ -6,6 +6,8 @@ install: true
 
 addons:
   sonarcloud:
+    branches:
+      - develop
     organization: "deoliveira-saurin"
     token:
       secure: "2768d13a8259ee89ba0695d967285186911728d8"
