@@ -25,9 +25,15 @@ hs_err_pid*
 *.DS_Store
 ###FROM SPRING BOOT TEMPLATE
 target/
+!.mvn/wrapper/maven-wrapper.jar
+
+#####Project
 diffcover-maven-plugin/target/
 diffcover-maven-plugin-test/target/
-!.mvn/wrapper/maven-wrapper.jar
+diffcover-maven-plugin/*.iml
+diffcover-maven-plugin-common/*.iml
+diffcover-maven-plugin-test/*.iml
+
 
 ### STS ###
 .apt_generated
@@ -39,6 +45,7 @@ diffcover-maven-plugin-test/target/
 
 ### IntelliJ IDEA ###
 .idea
+.idea/
 *.iws
 *.iml
 *.ipr
