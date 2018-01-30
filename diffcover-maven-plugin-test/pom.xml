@@ -21,7 +21,7 @@
                     <executions>
                         <execution>
                             <goals>
-                                <goal>touch</goal>
+                                <goal>verify</goal>
                             </goals>
                         </execution>
                     </executions>

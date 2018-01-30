@@ -31,17 +31,26 @@ import java.io.IOException;
 /**
  * Goal which touches a timestamp file.
  */
-@Mojo(name = "touch", defaultPhase = LifecyclePhase.TEST, threadSafe = true,
+@Mojo(name = "verify", defaultPhase = LifecyclePhase.TEST, threadSafe = true,
         requiresDependencyResolution = ResolutionScope.TEST)
-public class MyMojo
+public class DiffCoverPlugin
         extends AbstractMojo {
 
-    @Parameter(defaultValue = "${project.build.directory}", property = "outputDir")
+    /**
+     * Read-only parameter with value of Maven property <i>project.build.directory</i>.
+     */
+    @Parameter(defaultValue = "${project.build.directory}", property = "outputDir", readonly = true)
     private File outputDirectory;
 
+    /**
+     * The location of the jacoco file (result of goal prepare-agent of jacoco plugin).
+     */
     @Parameter(defaultValue = "${project.build.directory}/jacoco.exec", property = "jacocoFile")
     private File jacocoFile;
 
+    /**
+     * .....
+     */
     @Parameter(defaultValue = "${project.build.sourceDirectory}", property = "sourcesDir")
     private File sourcesDirectory;
 
@@ -49,8 +58,27 @@ public class MyMojo
      * The directory containing generated classes of the project being tested.</br>
      * This will be included after the test classes in the test classpath.
      */
-    @Parameter(defaultValue = "${project.build.outputDirectory}", property = "classesDir")
+    @Parameter(defaultValue = "${project.build.outputDirectory}", property = "classesDir", readonly = true)
     private File classesDirectory;
+
+    /**
+     * A list of &lt;exclude&gt; elements specifying the source (by pattern) that should be excluded in analysing.
+     */
+    @Parameter(defaultValue = "")
+    private String[] excludes;
+
+    /**
+     * A list of &lt;include&gt; elements specifying the source (by pattern) that should be included in analysing.
+     */
+    @Parameter(defaultValue = "")
+    private String[] includes;
+
+    /**
+     * Set this to "true" to cause a failure if uncovered sources by tests has been modified. Defaults to "false".</br>
+     * By defaults, each diff uncovered generate a log warn in console.
+     */
+    @Parameter(defaultValue = "false")
+    private Boolean failIfUncoveredDiff;
 
     @Override
     public void execute()
