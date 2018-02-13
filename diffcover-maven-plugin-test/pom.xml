@@ -23,6 +23,9 @@
                             <goals>
                                 <goal>touch</goal>
                             </goals>
+                            <configuration>
+                                <baseDir>toto</baseDir>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
