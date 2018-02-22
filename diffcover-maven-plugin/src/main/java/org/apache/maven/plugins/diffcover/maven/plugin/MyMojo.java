@@ -16,7 +16,6 @@ package org.apache.maven.plugins.diffcover.maven.plugin;
  * limitations under the License.
  */
 
-import org.apache.commons.lang3.builder.Diff;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -24,8 +23,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.sisu.Parameters;
 import org.jacoco.core.analysis.CoverageBuilder;
 
 import java.io.File;
