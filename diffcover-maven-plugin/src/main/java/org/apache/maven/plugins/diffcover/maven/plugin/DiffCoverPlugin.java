@@ -16,41 +16,33 @@ package org.apache.maven.plugins.diffcover.maven.plugin;
          * limitations under the License.
          */
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
-import org.jacoco.core.analysis.CoverageBuilder;
+import org.apache.maven.plugins.diffcover.DiffCoverEngine;
+import org.apache.maven.plugins.diffcover.Parameters;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * Goal which touches a timestamp file.
  */
-@Mojo(name = "verify", defaultPhase = LifecyclePhase.TEST, threadSafe = true,
+@Slf4j
+@Mojo(name = "touch", defaultPhase = LifecyclePhase.TEST, threadSafe = true,
         requiresDependencyResolution = ResolutionScope.TEST)
 public class DiffCoverPlugin
         extends AbstractMojo {
 
-    /**
-     * Read-only parameter with value of Maven property <i>project.build.directory</i>.
-     */
-    @Parameter(defaultValue = "${project.build.directory}", property = "outputDir", readonly = true)
+    @Parameter(defaultValue = "${project.build.directory}", property = "outputDir")
     private File outputDirectory;
 
-    /**
-     * The location of the jacoco file (result of goal prepare-agent of jacoco plugin).
-     */
     @Parameter(defaultValue = "${project.build.directory}/jacoco.exec", property = "jacocoFile")
     private File jacocoFile;
 
-    /**
-     * .....
-     */
     @Parameter(defaultValue = "${project.build.sourceDirectory}", property = "sourcesDir")
     private File sourcesDirectory;
 
@@ -58,56 +50,31 @@ public class DiffCoverPlugin
      * The directory containing generated classes of the project being tested.</br>
      * This will be included after the test classes in the test classpath.
      */
-    @Parameter(defaultValue = "${project.build.outputDirectory}", property = "classesDir", readonly = true)
+    @Parameter(defaultValue = "${project.build.outputDirectory}", property = "classesDir")
     private File classesDirectory;
 
-    /**
-     * A list of &lt;exclude&gt; elements specifying the source (by pattern) that should be excluded in analysing.
-     */
-    @Parameter(defaultValue = "")
-    private String[] excludes;
+    @Parameter(defaultValue = "${project.basedir}", property = "baseDir")
+    private File baseDirectory;
 
-    /**
-     * A list of &lt;include&gt; elements specifying the source (by pattern) that should be included in analysing.
-     */
-    @Parameter(defaultValue = "")
-    private String[] includes;
-
-    /**
-     * Set this to "true" to cause a failure if uncovered sources by tests has been modified. Defaults to "false".</br>
-     * By defaults, each diff uncovered generate a log warn in console.
-     */
-    @Parameter(defaultValue = "false")
-    private Boolean failIfUncoveredDiff;
+    @Parameter(defaultValue = "false", property = "failOnDiffUncover")
+    private Boolean failOnDiffUncovered;
 
     @Override
     public void execute()
             throws MojoExecutionException {
 
-        try {
-            CoverEngine coverEngine = new CoverEngine();
-            CoverageBuilder coverageBuilder =
-                    coverEngine.createCoverageBuilder(jacocoFile, classesDirectory);
-            coverEngine.analyse(coverageBuilder, sourcesDirectory);
-        } catch (IOException e) {
-            throw new MojoExecutionException("Error during analyse cover", e);
-        }
+        Parameters parameters = new Parameters();
+        parameters.setBasedir(baseDirectory);
+        parameters.setSourcesDir(sourcesDirectory);
+        parameters.setJacocoFile(jacocoFile);
+        parameters.setClassesDir(classesDirectory);
+        log.info("Parameters {}", parameters);
 
-        File f = outputDirectory;
+        DiffCoverEngine diffCoverEngine = new DiffCoverEngine();
+        Boolean ok = diffCoverEngine.analyse(parameters);
 
-        if (!f.exists()) {
-            boolean mkdirs = f.mkdirs();
-            if (!mkdirs) {
-                throw new MojoExecutionException("Error creating dir " + f.getAbsolutePath());
-            }
-        }
-
-        File touch = new File(f, "touch.txt");
-
-        try (FileWriter w = new FileWriter(touch)){
-            w.write("touch.txt");
-        } catch (IOException e) {
-            throw new MojoExecutionException("Error creating file " + touch, e);
+        if (failOnDiffUncovered && !ok) {
+            throw new MojoExecutionException("Some modified codes aren't covered by unit tests.");
         }
     }
 }
